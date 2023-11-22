@@ -12,9 +12,10 @@ const mongoose = require('./dbs/init.mongodb.js')
 app.use(morgan("dev"))
 app.use(helmet())
 app.use(compression())
+
+
 // init db
 mongoose
-
 
 
 // int routes
