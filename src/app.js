@@ -6,6 +6,7 @@ const { default: helmet } = require('helmet')
 const morgan = require('morgan')
 const app = express()
 const mongoose = require('./dbs/init.mongodb.js')
+require('dotenv').config()
 
 
 // init middlewares

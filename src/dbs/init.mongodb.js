@@ -2,7 +2,10 @@
 const mongoose = require('mongoose')
 const { mountpath } = require('../app')
 
-const connectString = 'mongodb://localhost:27017/home'
+//require db env from file config 
+const { db: { host, port, name }} = require('../configs/config.mongodb.js') 
+
+const connectString = `mongodb://${host}:${port}/${name}`
 const { countConnect } = require('../helpers/check.connect.js')
 
 
@@ -19,8 +22,8 @@ class Database {
             mongoose.set('debug', {color: true}) 
         }
 
-        mongoose.connect(connectString).then( () => console.log('Connect Success!',countConnect() ))
-        .catch(err => console.error('Connect Fail'))
+        mongoose.connect(connectString).then( () => console.log('Connect to MongoDB Success!',countConnect() ))
+        .catch(err => console.error('Connect to MongoDB Fail'))
     }   
     
     // Protect to only Data created
