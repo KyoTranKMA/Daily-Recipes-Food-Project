@@ -5,7 +5,9 @@ const { status } = require('express/lib/response')
 const { default: helmet } = require('helmet')
 const morgan = require('morgan')
 const app = express()
-const mongoose = require('./dbs/init.mongodb.js')
+const mongoose = require('./databases/init.mongodb.js')
+const { route } = require('./routes/index.js')
+// require enviroment  from .env
 require('dotenv').config()
 
 
@@ -20,12 +22,7 @@ mongoose
 
 
 // int routes
-app.get('/', (req,res,next) => {
-    return res.status(200).json({
-        messeage: "Successfully!",
-        status: "OK"
-    })
-})
+app.use( '/', require('./routes/index.js'));
 
 
 // handling error

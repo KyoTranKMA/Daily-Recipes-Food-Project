@@ -1,6 +1,6 @@
 'use strict'
 const mongoose = require('mongoose')
-const { mountpath } = require('../app')
+const { mountpath } = require('../app.js')
 
 //require db env from file config 
 const { db: { host, port, name }} = require('../configs/config.mongodb.js') 
