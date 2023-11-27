@@ -6,7 +6,7 @@ class AccessController {
         this.signUp = this.signUp.bind(this);
     }
 
-    async signUp (req, res, next) {
+    signUp = async (req, res, next) => {
         try {
             console.log(`[P]:::signUp:`, req.body)
             
