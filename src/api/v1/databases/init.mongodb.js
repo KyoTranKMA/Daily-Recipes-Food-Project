@@ -1,9 +1,9 @@
 'use strict'
 const mongoose = require('mongoose')
-const { mountpath } = require('../app.js')
+const { mountpath } = require('../../../app.js')
 
 //require db env from file config 
-const { db: { host, port, name }} = require('../configs/config.mongodb.js') 
+const { db: { host, port, name }} = require('../../configs/config.mongodb.js') 
 
 const connectString = `mongodb://${host}:${port}/${name}`
 const { countConnect } = require('../helpers/check.connect.js')
