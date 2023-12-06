@@ -1,11 +1,12 @@
-'use strict';
+"use strict";
 
-const signUpModel = require('../models/sign-up.model');
-const bcrypt = require('bcrypt');
-const crypto = require('crypto');
-const keytokenModel = require('../models/keytoken.model');
-const {KeyTokenService } = require('./keyToken.service');
-const { createTokenPair } = require('../auth/authUtils');
+const signUpModel = require("../models/sign-up.model");
+const bcrypt = require("bcrypt");
+const crypto = require("crypto");
+const keytokenModel = require("../models/keytoken.model");
+const { KeyTokenService } = require("./keyToken.service");
+const { createTokenPair } = require("../auth/authUtils");
+const { getInfoData } = require("../utils/index.js");
 
 class AccessService {
     static signUp = async ({ name, email, password }) => {
@@ -15,7 +16,7 @@ class AccessService {
             if (accountUser) {
                 return {
                     code: 226,
-                    message: 'Email already registered!',
+                    message: "Email already registered!",
                 };
             }
 
@@ -28,11 +29,12 @@ class AccessService {
             });
 
             if (newAccount) {
-                const { privateKey, publicKey } = crypto.generateKeyPairSync('rsa', {
-                    modulusLength: 4096,
-                });
-
-                console.log({ privateKey, publicKey });
+                const { privateKey, publicKey } = crypto.generateKeyPairSync(
+                    "rsa",
+                    {
+                        modulusLength: 4096,
+                    }
+                );
 
                 const publicKeyString = await KeyTokenService.createKeyToken({
                     userId: newAccount._id,
@@ -41,15 +43,15 @@ class AccessService {
 
                 if (!publicKeyString) {
                     return {
-                        code: 'xxxx',
-                        message: 'Public KeyString error',
+                        code: "xxxx",
+                        message: "Public KeyString error",
                     };
                 }
 
                 // Create token pair
                 const tokens = await createTokenPair(
                     { userId: newAccount._id, email },
-                    publicKey,
+                    publicKeyString,
                     privateKey
                 );
 
@@ -58,7 +60,10 @@ class AccessService {
                 return {
                     code: 200,
                     metadata: {
-                        account: newAccount,
+                        Account: getInfoData({
+                            fields: ['_id', 'name', 'email'],
+                            object:  newAccount 
+                        }),
                         tokens,
                     },
                 };
@@ -72,7 +77,7 @@ class AccessService {
             console.error(error);
             return {
                 code: 500,
-                message: 'Internal Server Error',
+                message: "Internal Server Error",
             };
         }
     };

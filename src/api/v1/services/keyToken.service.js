@@ -5,12 +5,17 @@ const keytokenModel = require("../models/keytoken.model");
 class KeyTokenService {
     static createKeyToken = async ({ userId, publicKey }) => {
         try {
-            const publicKeyString = publicKey.toString();
+            // Extract the public key string
+            const publicKeyString = publicKey
+                .export({ format: "pem", type: "spki" })
+                .toString();
+            console.log(`Public Key String::: `, publicKeyString);
+
             const tokens = await keytokenModel.create({
                 user: userId,
                 publicKey: publicKeyString,
             });
-
+            console.log("Tokens:", tokens);
             return tokens ? publicKeyString : null;
         } catch (error) {
             return error;

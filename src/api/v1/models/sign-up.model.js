@@ -2,11 +2,14 @@
 
 const mongoose = require('mongoose');
 
+const DOCUMENT_NAME = 'User';
+
 // Declare the Schema of the User model
 var userSchema = new mongoose.Schema({
     name:{
         type:String,
         required:true,
+        unique: true,
         maxLength: 150,
     },
     password:{
@@ -31,4 +34,4 @@ var userSchema = new mongoose.Schema({
 });
 
 //Export the model
-module.exports = mongoose.model('User', userSchema); 
+module.exports = mongoose.model(DOCUMENT_NAME, userSchema); 
